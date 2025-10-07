@@ -4,13 +4,23 @@ public class GermanTranslator implements Translator {
 
 	public String date = "Okt/2025"; // Default-Wert
 
+	// Array mit den Übersetzungen
+	private static final String[] numbers = {
+			"eins", "zwei", "drei", "vier", "fünf",
+			"sechs", "sieben", "acht", "neun", "zehn"
+	};
+
 	/**
 	 * Methode zur Übersetzung einer Zahl in eine String-Repraesentation
 	 */
-	 public String translateNumber(int number) {
-		// [ihr Source Code aus Übung 1-2]
-
-		return "null";
+	@Override
+	public String translateNumber(int number) {
+		try {
+			return numbers[number - 1];  // Arrayzugriff
+		} catch (ArrayIndexOutOfBoundsException e) {
+			return "Übersetzung der Zahl " + number
+					+ " nicht möglich (" + Translator.version + ")";
+		}
 	}
 
 	/**
@@ -29,3 +39,4 @@ public class GermanTranslator implements Translator {
 	}
 
 }
+
