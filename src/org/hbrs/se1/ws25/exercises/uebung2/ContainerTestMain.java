@@ -1,6 +1,6 @@
 package org.hbrs.se1.ws25.exercises.uebung2;
 
-public class ContainerMain {
+public class ContainerTestMain {
     public static void main(String[] args) {
         Container container = new Container();
 
