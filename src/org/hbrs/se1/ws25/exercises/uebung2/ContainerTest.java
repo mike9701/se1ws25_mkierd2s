@@ -110,7 +110,6 @@ public class ContainerTest {
     // Hinzufügen von null sollte eine IllegalArgumentException werfen
     @Test
     void test10_AddNullMemberThrowsIllegalArgumentException() {
-        assertThrows(IllegalArgumentException.class, () -> container.addMember(null),
-                "Das Hinzufügen eines null-Members sollte eine IllegalArgumentException auslösen.");
+        assertThrows(IllegalArgumentException.class, () -> container.addMember(null), "Das Hinzufügen eines null-Members sollte eine IllegalArgumentException auslösen.");
     }
 }
