@@ -42,7 +42,12 @@ public class ContainerTest {
     void test4_AddingDuplicateMemberThrowsException() throws ContainerException {
         container.addMember(m1);
         container.addMember(m2);
+
+        // Erwartet, dass beim erneuten Hinzufügen eines Members mit gleicher ID eine ContainerException geworfen wird.
+        // Die Lambda-Schreibweise () -> container.addMember(m2) übergibt den auszuführenden Codeblock als Funktionsobjekt an assertThrows.
+        // Die runden Klammern () sind hier leer, weil die übergebene Funktion keine Parameter benötigt – assertThrows ruft sie einfach nur aus, ohne etwas zu übergeben.
         ContainerException ex = assertThrows(ContainerException.class, () -> container.addMember(m2));
+
         assertEquals("Das Member-Objekt mit der ID 2 ist bereits vorhanden!", ex.getMessage());
     }
 
