@@ -2,8 +2,11 @@ package org.hbrs.se1.ws25.exercises.uebung3;
 
 import org.hbrs.se1.ws25.exercises.uebung2.ContainerException;
 import org.hbrs.se1.ws25.exercises.uebung2.Member;
+import org.hbrs.se1.ws25.exercises.uebung3.persistence.PersistenceException;
+import org.hbrs.se1.ws25.exercises.uebung3.persistence.PersistenceStrategy;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Container {
@@ -24,6 +27,43 @@ public class Container {
             instance = new Container();
         }
         return instance;
+    }
+
+    /**
+     * -------------------------------------------------------------------------------------------
+     */
+
+    /**
+     * CR2: Persistenzstrategie (Strategy Pattern)
+     */
+
+    private PersistenceStrategy<Member> persistenceStrategy;
+
+    public void setPersistenceStrategy(PersistenceStrategy<Member> persistenceStrategy) {
+        this.persistenceStrategy = persistenceStrategy;
+    }
+
+    public void store() throws PersistenceException {
+        if (persistenceStrategy == null) {
+            throw new PersistenceException(
+                    PersistenceException.ExceptionType.NoStrategyIsSet,
+                    "Keine Persistenzstrategie gesetzt!"
+            );
+        }
+        persistenceStrategy.save(members);
+    }
+
+    public void load() throws PersistenceException {
+        if (persistenceStrategy == null) {
+            throw new PersistenceException(
+                    PersistenceException.ExceptionType.NoStrategyIsSet,
+                    "Keine Persistenzstrategie gesetzt!"
+            );
+        }
+
+        List<Member> loaded = persistenceStrategy.load();
+        members.clear();
+        members.addAll(loaded);
     }
 
     /**
@@ -69,19 +109,20 @@ public class Container {
     }
 
     /**
-     * FA3: Ausgabe aller gespeicherten Member.
-     */
-    public void dump() {
-        System.out.println("=== Aktueller Inhalt des Containers ===");
-        for (Member m : members) {
-            System.out.println(m.toString());
-        }
-    }
-
-    /**
      * FA4: Rückgabe der aktuellen Größe.
      */
     public int size() {
         return members.size();
+    }
+
+
+    /**
+     * Liefert die aktuelle Liste der gespeicherten Member zurück.
+     * Wird z.B. von der MemberView für die Ausgabe verwendet.
+     */
+    public List<Member> getCurrentList() {
+        // Wir geben eine "unveränderliche" Sicht zurück,
+        // damit niemand von außen direkt die Liste manipulieren kann
+        return Collections.unmodifiableList(members);
     }
 }

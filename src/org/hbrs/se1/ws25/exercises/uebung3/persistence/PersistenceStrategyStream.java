@@ -1,4 +1,7 @@
 package org.hbrs.se1.ws25.exercises.uebung3.persistence;
+
+import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
@@ -20,7 +23,22 @@ public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
      * (Last Access: Oct, 13th 2025)
      */
     public void save(List<E> member) throws PersistenceException  {
+        File file = new File(location);
+        if (file.isDirectory()) {
+            throw new PersistenceException(
+                    PersistenceException.ExceptionType.ConnectionNotAvailable,
+                    "Location ist ein Verzeichnis: " + location
+            );
+        }
 
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(location))) {
+            oos.writeObject(member);
+        } catch (IOException e) {
+            throw new PersistenceException(
+                    PersistenceException.ExceptionType.ConnectionNotAvailable,
+                    "Fehler beim Speichern: " + e.getMessage()
+            );
+        }
     }
 
     @Override
@@ -50,6 +68,59 @@ public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
         // return newListe
 
         // and finally close the streams
+
+        ObjectInputStream ois = null;
+        FileInputStream fis = null;
+        List<E> newList = new ArrayList<>();
+
+        try {
+            File file = new File(location);
+
+            // Testfall: Wenn Location ein Directory ist → Exception
+            if (file.isDirectory()) {
+                throw new PersistenceException(
+                        PersistenceException.ExceptionType.ConnectionNotAvailable,
+                        "Location ist ein Verzeichnis: " + location
+                );
+            }
+
+            // Falls Datei nicht existiert: gib einfach leere Liste zurück
+            if (!file.exists()) {
+                return newList;
+            }
+
+            // Stream öffnen
+            fis = new FileInputStream(file);
+            ois = new ObjectInputStream(fis);
+
+            // Objekt lesen
+            Object obj = ois.readObject();
+
+            // Typ prüfen und casten
+            if (obj instanceof List<?>) {
+                newList = (List<E>) obj;
+            } else {
+                throw new PersistenceException(
+                        PersistenceException.ExceptionType.ConnectionNotAvailable,
+                        "Gespeichertes Objekt ist keine gültige Liste!"
+                );
+            }
+
+        } catch (IOException | ClassNotFoundException e) {
+            throw new PersistenceException(
+                    PersistenceException.ExceptionType.ConnectionNotAvailable,
+                    "Fehler beim Laden: " + e.getMessage()
+            );
+        } finally {
+            // Streams schließen (sicher)
+            try {
+                if (ois != null) ois.close();
+                if (fis != null) fis.close();
+            } catch (IOException e) {
+                System.err.println("Warnung: Fehler beim Schließen des Streams: " + e.getMessage());
+            }
+        }
+
         return null;
     }
 }
