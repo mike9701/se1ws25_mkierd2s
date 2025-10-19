@@ -108,7 +108,7 @@ public class ContainerTest {
         assertEquals(1, members.get(0).getID());
         System.out.println("Member1 ID (sollte 1 sein): "  + members.get(0).getID());
         assertEquals(2, members.get(1).getID());
-        System.out.println("Member1 ID (sollte 2 sein): " + members.get(1).getID());
+        System.out.println("Member2 ID (sollte 2 sein): " + members.get(1).getID());
 
         // === 5. Aufräumen ===
         boolean deleted = file.delete();
