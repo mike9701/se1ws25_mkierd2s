@@ -1,6 +1,5 @@
 package org.hbrs.se1.ws25.exercises.uebung3;
 
-import org.hbrs.se1.ws25.exercises.uebung2.ConcreteMember;
 import org.hbrs.se1.ws25.exercises.uebung2.Member;
 import org.hbrs.se1.ws25.exercises.uebung3.persistence.PersistenceStrategy;
 import org.hbrs.se1.ws25.exercises.uebung3.persistence.PersistenceStrategyStream;
@@ -26,7 +25,17 @@ public class Client {
 
             //Daten persistent speichern
             container.store();
+            System.out.println("Member wurden erfolgreich gespeichert.");
 
+            // Container leeren
+            container.deleteAllMembers();
+            System.out.println("Container nach deleteAllMembers():");
+            MemberView.dump(container.getCurrentList());
+
+            // Daten wieder laden
+            container.load();
+            System.out.println("Container nach load():");
+            MemberView.dump(container.getCurrentList());
 
         } catch (Exception e) {
             System.err.println("Fehler: " + e.getMessage());

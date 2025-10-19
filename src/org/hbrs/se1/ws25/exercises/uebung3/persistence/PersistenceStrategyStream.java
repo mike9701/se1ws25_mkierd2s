@@ -121,6 +121,6 @@ public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
             }
         }
 
-        return null;
+        return newList;
     }
 }

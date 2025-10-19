@@ -125,4 +125,12 @@ public class Container {
         // damit niemand von außen direkt die Liste manipulieren kann
         return Collections.unmodifiableList(members);
     }
+
+    /**
+     * Löscht alle gespeicherten Member im Container.
+     * Wird z.B. für Tests oder zum Zurücksetzen verwendet.
+     */
+    public void deleteAllMembers() {
+        members.clear();
+    }
 }
