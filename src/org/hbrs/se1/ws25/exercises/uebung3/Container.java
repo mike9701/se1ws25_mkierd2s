@@ -7,6 +7,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Container {
+    /**
+     * CR1: Singleton Pattern
+     */
+
+    // Statische Referenz auf das einzige Objekt
+    private static Container instance = null;
+
+    // Privater Konstruktor verhindert direkte Instanziierung
+    private Container() {
+    }
+
+    // Öffentliche statische Zugriffsmethode
+    public static Container getInstance() {
+        if (instance == null) {
+            instance = new Container();
+        }
+        return instance;
+    }
+
+    /**
+     * -------------------------------------------------------------------------------------------
+     */
+
     // interne Speicherung mit java.util.List
     private List<Member> members = new ArrayList<>();
 
