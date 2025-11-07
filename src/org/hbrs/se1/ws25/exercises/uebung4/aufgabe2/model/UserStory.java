@@ -1,4 +1,4 @@
-package org.hbrs.se1.ws25.exercises.uebung4.aufgabe2;
+package org.hbrs.se1.ws25.exercises.uebung4.aufgabe2.model;
 
 import java.io.Serializable;
 
@@ -10,7 +10,7 @@ import java.io.Serializable;
  */
 public class UserStory implements Serializable {
     // --- Basisinformationen ---
-    private final String id;                    // Eindeutige Kennung, darf nicht null sein
+    private final Integer id;                    // Eindeutige Kennung, darf nicht null sein
     private String title;                       // Kurzer Titel der User Story
     private String acceptanceCriterion;         // Einfache Beschreibung des Erfolgsfalls
     private String project;                     // Projektzuordnung
@@ -24,10 +24,10 @@ public class UserStory implements Serializable {
     // --- Ergebniswert ---
     private double priority;                    // Berechneter Priorisierungswert
 
-    public UserStory(String id, String title, String acceptanceCriterion, String project, double mehrwert, double strafe, double aufwand, double risiko) {
+    public UserStory(Integer id, String title, String acceptanceCriterion, String project, double mehrwert, double strafe, double aufwand, double risiko) {
 
         //Wenn ID leer ist -> Exception werfen
-        if (id == null || id.isBlank()) {
+        if (id == null || id <= 0) {
             throw new IllegalArgumentException("ID darf nicht leer sein.");
         }
 
@@ -36,14 +36,21 @@ public class UserStory implements Serializable {
         this.acceptanceCriterion = acceptanceCriterion;
         this.project = project;
 
-        setMehrwert(mehrwert);
-        setStrafe(strafe);
-        setAufwand(aufwand);
-        setRisiko(risiko);
+        this.mehrwert = mehrwert;
+        this.strafe   = strafe;
+        this.aufwand  = aufwand;
+        this.risiko   = risiko;
+
+        validateNonNegative(this.mehrwert, "Mehrwert");
+        validateNonNegative(this.strafe,   "Strafe");
+        validateNonNegative(this.aufwand,  "Aufwand");
+        validateNonNegative(this.risiko,   "Risiko");
+
+        recalculatePriority();
     }
 
     // ----------------- Getter -----------------
-    public String getId() { return id; }
+    public Integer getID() { return id; }
     public String getTitle() { return title; }
     public String getAcceptanceCriterion() { return acceptanceCriterion; }
     public String getProject() { return project; }
@@ -98,24 +105,16 @@ public class UserStory implements Serializable {
     private void recalculatePriority() {
         double denominator = aufwand + risiko;
         if (denominator <= 0.0) {
-            throw new IllegalStateException(
-                    "Aufwand + Risiko muss > 0 sein, um eine Priorität berechnen zu können."
-            );
+            throw new IllegalArgumentException("Aufwand + Risiko muss > 0 sein.");
         }
         this.priority = (mehrwert + strafe) / denominator;
     }
 
     @Override
     public String toString() {
-        return "UserStory{" +
-                "id='" + id + '\'' +
-                ", title='" + title + '\'' +
-                ", project='" + project + '\'' +
-                ", mehrwert=" + mehrwert +
-                ", strafe=" + strafe +
-                ", aufwand=" + aufwand +
-                ", risiko=" + risiko +
-                ", priority=" + priority +
-                '}';
+        return String.format(
+                "ID: %s  |  Titel: %s  |  Projekt: %s  |  Mehrwert: %.1f  |  Strafe: %.1f  |  Aufwand: %.1f  |  Risiko: %.1f  |  Prio: %.3f",
+                id, title, project, mehrwert, strafe, aufwand, risiko, priority
+        );
     }
 }
