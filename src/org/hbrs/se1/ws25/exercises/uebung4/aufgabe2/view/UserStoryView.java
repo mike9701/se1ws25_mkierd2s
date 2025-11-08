@@ -2,8 +2,6 @@ package org.hbrs.se1.ws25.exercises.uebung4.aufgabe2.view;
 
 import org.hbrs.se1.ws25.exercises.uebung4.aufgabe2.model.UserStory;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
