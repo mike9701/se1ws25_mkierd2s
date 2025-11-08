@@ -46,7 +46,7 @@ Eine Testautomatisierung (JUnit) ist **nicht Bestandteil** dieser README.
 
 ---
 
-## 📋 Bewertungskriterien
+## Bewertungskriterien
 
 Ein Test gilt als **bestanden**, wenn:
 - die jeweilige erwartete Ausgabe exakt angezeigt wird,
@@ -55,7 +55,7 @@ Ein Test gilt als **bestanden**, wenn:
 
 ---
 
-## 🏁 Abschluss
+## Abschluss
 
 Wenn alle Tests aus dieser README erfolgreich sind,  
 ist die Anwendung *AllMyResources@HBRS* funktional korrekt,  
