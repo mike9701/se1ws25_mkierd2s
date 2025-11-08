@@ -34,7 +34,7 @@ public class InputDialog {
 
             switch (cmd) {
                 case "help" -> printHelp();
-                case "dump" -> handleDumpByPriority();
+                case "dump" -> handleDump(tokens);
                 case "store" -> handleStore();
                 case "load" -> handleLoad();
                 case "enter" -> handleEnterInteractive();
@@ -44,9 +44,25 @@ public class InputDialog {
         }
     }
 
-    private void handleDumpByPriority() {
-        var data = container.getCurrentAllUserStories();
-        view.dumpSortedByIdDesc(data);
+    private void handleDump(String[] tokens) {
+         // Wenn nur "dump" eingegeben wurde → nach Priorität sortiert
+        if (tokens.length == 1) {
+            var data = container.getCurrentAllUserStories();
+            view.dumpSortedByPriority(data);
+            return;
+        }
+
+        // Wenn "dump project <Name>" eingegeben wurde → gefiltert nach Projekt
+        if (tokens.length >= 3 && tokens[1].equalsIgnoreCase("project")) {
+            // Alles nach "project" als Projektnamen zusammensetzen
+            String projectName = String.join(" ", java.util.Arrays.copyOfRange(tokens, 2, tokens.length));
+            var data = container.getCurrentAllUserStories();
+            view.dumpByProject(data, projectName);
+            return;
+        }
+
+        // Alles andere → ungültig
+        System.out.println("Unbekannter Befehl. Verwendung: 'dump' oder 'dump project <Name>'");
     }
 
     private void handleStore() {
@@ -131,13 +147,14 @@ public class InputDialog {
 
     private void printHelp() {
         System.out.println("""
-            Befehle:
-            enter  - interaktive Eingabe einer User Story
-            dump   - Ausgabe aller User Stories nach Priorität (absteigend)
-            store  - speichert alle User Stories persistent in userstories.ser
-            load   - lädt User Stories von userstories.ser
-            help   - zeigt diese Hilfe
-            exit   - beendet das Programm
-            """);
+                Befehle:
+                enter             - interaktive Eingabe einer User Story
+                dump              - Ausgabe aller User Stories nach Priorität (absteigend)
+                dump project XYZ  - Ausgabe aller User Stories im Projekt XYZ
+                store             - speichert alle User Stories persistent in userstories.ser
+                load              - lädt User Stories von userstories.ser
+                help              - zeigt diese Hilfe
+                exit              - beendet das Programm
+                """);
     }
 }

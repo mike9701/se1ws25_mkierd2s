@@ -15,29 +15,39 @@ public class UserStoryView {
     /**
      * Gibt alle UserStories sortiert nach Priorität (absteigend) auf der Konsole aus.
      */
-    public void dumpSortedByIdDesc(List<UserStory> userstories) {
+    public void dumpSortedByPriority(List<UserStory> userstories) {
         if (userstories == null || userstories.isEmpty()) {
             System.out.println("Keine User Stories vorhanden.");
             return;
         }
 
-        // Liste der Prioritäten anlegen
-        List<Double> prios = new ArrayList<>();
-        for (UserStory us : userstories) {
-            prios.add(us.getPriority());
+        userstories.stream()
+                .sorted((u1, u2) -> Double.compare(u2.getPriority(), u1.getPriority()))
+                .map(UserStory::toString)
+                .forEach(System.out::println); // direkt ausgeben
+    }
+
+    /**
+     * Gibt alle UserStories aus, die zu einem bestimmten Projekt gehören.
+     */
+    public void dumpByProject(List<UserStory> userstories, String projectName) {
+        if (userstories == null || userstories.isEmpty()) {
+            System.out.println("Keine User Stories vorhanden.");
+            return;
         }
 
-        // Prioritäten absteigend sortieren
-        Collections.sort(prios, Collections.reverseOrder());
+        var matches = userstories.stream()
+                .filter(us -> us.getProject() != null)
+                .filter(us -> us.getProject().equalsIgnoreCase(projectName))
+                .toList(); // Ergebnis in eine temporäre Liste speichern
 
-        // Für jede Priorität die passende UserStory ausgeben
-        for (Double prio : prios) {
-            for (UserStory us : userstories) {
-                if (us.getPriority() == prio) {
-                    System.out.println(us);
-                    break; // sobald gefunden, weiter zur nächsten Prio
-                }
-            }
+        if (matches.isEmpty()) {
+            System.out.println("Keine User Stories vorhanden.");
+            return;
         }
+
+        matches.stream()
+                .map(UserStory::toString)
+                .forEach(System.out::println);
     }
 }
