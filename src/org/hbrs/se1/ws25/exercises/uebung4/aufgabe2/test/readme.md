@@ -20,19 +20,81 @@ Eine Testautomatisierung (JUnit) ist **nicht Bestandteil** dieser README.
 
 ## Testfälle
 
-| **Test-ID** | **Aktion / Eingabe** | **Erwartetes Verhalten / Ausgabe** |
-|--------------|----------------------|------------------------------------|
-| **E2E-01** | `help` | Liste aller verfügbaren Befehle wird angezeigt. |
-| **E2E-02** | `enter` | Interaktive Eingabe startet. Nach Eingabe aller Felder wird die User Story bestätigt und im Speicher abgelegt. |
-| **E2E-03** | `dump` | Alle vorhandenen User Stories werden nach Priorität (absteigend) angezeigt. |
-| **E2E-04** | `dump project HBRS` | Nur User Stories des Projekts *HBRS* werden angezeigt. |
-| **E2E-05** | `dump project <unbekannt>` | Es erfolgt die Ausgabe: *„Keine User Stories vorhanden.“* |
-| **E2E-06** | `dump xyz` | Fehlermeldung: *„Unbekannter Befehl. Verwendung: 'dump' oder 'dump project <Name>'“* |
-| **E2E-07** | `store` | Aktuell gespeicherte User Stories werden in `userstories.ser` persistent gespeichert. Bestätigung: *„User Stories gespeichert.“* |
-| **E2E-08** | `load` | User Stories werden aus der Datei `userstories.ser` geladen. Bestätigung: *„User Stories geladen.“* |
-| **E2E-09** | `enter` → Eingabe negativer Werte (z. B. Risiko = −1) | Fehlermeldung: *„Risiko darf nicht negativ sein!“* |
-| **E2E-10** | `enter` → doppelte ID eingeben | Fehlermeldung: *„Das UserStory-Objekt mit der ID … ist bereits vorhanden!“* |
-| **E2E-11** | `exit` | Programm beendet sich ordnungsgemäß mit Ausgabe *„Bye!“* |
+| **TestCase No.** | **Category** | **Input** | **Output (erw. Ergebnis)** |
+|------------------:|:------------:|------------|-----------------------------|
+| **01** | ✅ Positiv | `help` | Liste aller verfügbaren Befehle wird angezeigt. |
+| **02** | ✅ Positiv | `enter` | Interaktive Eingabe startet. Nach Eingabe aller Felder wird die User Story bestätigt und im Speicher abgelegt. |
+| **03** | ✅ Positiv | `dump` | Alle vorhandenen User Stories werden nach Priorität (absteigend) angezeigt. |
+| **04** | ✅ Positiv | `dump project HBRS` | Nur User Stories des Projekts *HBRS* werden angezeigt. |
+| **05** | ⚠️ Negativ | `dump project <unbekannt>` | Ausgabe: *„Keine User Stories vorhanden.“* |
+| **06** | ⚠️ Negativ | `dump xyz` | Fehlermeldung: *„Unbekannter Befehl. Verwendung: 'dump' oder 'dump project <Name>'“* |
+| **07** | ✅ Positiv | `store` | User Stories werden persistent in `userstories.ser` gespeichert. Ausgabe: *„User Stories gespeichert.“* |
+| **08** | ✅ Positiv | `load` | User Stories werden aus `userstories.ser` geladen. Ausgabe: *„User Stories geladen.“* |
+| **09** | ⚠️ Negativ | `enter` → Eingabe negativer Werte (z. B. Risiko = −1) | Fehlermeldung: *„Risiko darf nicht negativ sein!“* |
+| **10** | ⚠️ Negativ | `enter` → doppelte ID eingeben | Fehlermeldung: *„Das UserStory-Objekt mit der ID … ist bereits vorhanden!“* |
+| **11** | ✅ Positiv | `exit` | Programm beendet sich ordnungsgemäß mit Ausgabe *„Bye!“* |
+
+---
+
+## Äquivalenzklassen Klasse UserStory
+
+| **Parameter** | **Äquivalenzklasse** | **Repräsentant (Beispielwert)** | **Category** |
+|----------------|----------------------|----------------------------------|--------------|
+| `id` | positive ganze Zahl | 1 | ✅ Positiv |
+| `id` | null oder negative Zahl | -5 | ⚠️ Negativ |
+| `title` | nicht leerer String | "Raumreservierung" | ✅ Positiv |
+| `title` | leerer String oder null | "" | ⚠️ Negativ |
+| `acceptanceCriterion` | gültige Beschreibung | "Raum kann gebucht werden" | ✅ Positiv |
+| `acceptanceCriterion` | leer oder null | null | ⚠️ Negativ |
+| `project` | gültiger Projektname | "HBRS" | ✅ Positiv |
+| `project` | leer oder null | "" | ⚠️ Negativ |
+| `mehrwert` | ≥ 0 | 8.0 | ✅ Positiv |
+| `mehrwert` | < 0 | -1.0 | ⚠️ Negativ |
+| `strafe` | ≥ 0 | 2.0 | ✅ Positiv |
+| `strafe` | < 0 | -3.0 | ⚠️ Negativ |
+| `aufwand` | ≥ 0 | 4.0 | ✅ Positiv |
+| `aufwand` | < 0 | -2.0 | ⚠️ Negativ |
+| `risiko` | ≥ 0 | 1.0 | ✅ Positiv |
+| `risiko` | < 0 | -1.0 | ⚠️ Negativ |
+| `(aufwand + risiko)` | Summe > 0 | Aufwand=3, Risiko=1 | ✅ Positiv |
+| `(aufwand + risiko)` | Summe ≤ 0 | Aufwand=0, Risiko=0 | ⚠️ Negativ |
+
+---
+
+## Äquivalenzklassen Klasse Container
+
+| **Parameter / Methode** | **Äquivalenzklasse** | **Repräsentant (Beispielwert)** | **Category** |
+|---------------------------|----------------------|----------------------------------|--------------|
+| `addUserStory()` | neues, gültiges Objekt | UserStory(ID=1, Projekt="HBRS") | ✅ Positiv |
+| `addUserStory()` | null-Referenz | null | ⚠️ Negativ |
+| `addUserStory()` | doppelte ID | ID=1 existiert bereits | ⚠️ Negativ |
+| `deleteUserStory()` | existierende ID | ID=1 | ✅ Positiv |
+| `deleteUserStory()` | nicht vorhandene ID | ID=999 | ⚠️ Negativ |
+| `store()` | Persistenzstrategie gesetzt | Strategy=PersistenceStrategyStream | ✅ Positiv |
+| `store()` | keine Strategie gesetzt | Strategy=null | ⚠️ Negativ |
+| `load()` | Datei vorhanden | "userstories.ser" vorhanden | ✅ Positiv |
+| `load()` | Datei fehlt oder fehlerhaft | "userstories.ser" fehlt | ⚠️ Negativ |
+| `getCurrentList()` | lesender Zugriff | list.size() | ✅ Positiv |
+| `getCurrentList()` | Versuch, Liste zu verändern | list.add(...) | ⚠️ Negativ |
+
+---
+
+## Äquivalenzklassen Klasse InputDialog
+
+| **Parameter / Eingabe** | **Äquivalenzklasse** | **Repräsentant (Beispielwert)** | **Category** |
+|---------------------------|----------------------|----------------------------------|--------------|
+| `Befehle` | gültiger Befehl | `enter`, `dump`, `store`, `load`, `exit`, `help` | ✅ Positiv |
+| `Befehle` | ungültiger Befehl | `xyz`, `dump abc` | ⚠️ Negativ |
+| `dump project` | existierendes Projekt | `dump project HBRS` | ✅ Positiv |
+| `dump project` | unbekanntes Projekt | `dump project Unbekannt` | ⚠️ Negativ |
+| `Numerische Eingabe` | gültige Zahl ≥ 0 | `5` | ✅ Positiv |
+| `Numerische Eingabe` | ungültige Zahl < 0 | `-2` | ⚠️ Negativ |
+| `Numerische Eingabe` | keine Zahl | `abc` | ⚠️ Negativ |
+| `Text-Eingabe` | nicht leerer String | `"Geräteraum"` | ✅ Positiv |
+| `Text-Eingabe` | leerer String | `""` | ⚠️ Negativ |
+| `store` / `load` | Strategie korrekt gesetzt | Datei: `userstories.ser` | ✅ Positiv |
+| `store` / `load` | keine Strategie oder defekte Datei | Datei fehlt oder beschädigt | ⚠️ Negativ |
+| `exit` | Programm korrekt beenden | `exit` | ✅ Positiv |
 
 ---
 
