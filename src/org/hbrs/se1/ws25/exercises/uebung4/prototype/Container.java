@@ -72,7 +72,7 @@ public class Container {
 	 * Alle Exceptions werden an den aufrufenden Context (hier: main) weitergegeben (throws)
 	 * Das entlastet den Entwickler zur Entwicklungszeit und den Endanwender zur Laufzeit
 	 */
-	public void startEingabe() throws ContainerException, Exception {
+	public void startEingabe() throws Exception {
 		String strInput = null;
 		
 		// Initialisierung des Eingabe-View
@@ -106,10 +106,11 @@ public class Container {
 			if (  strings[0].equals("store")  ) {
 				// Beispiel-Code zum Anlegen und Speichern einer UserStory:
 				UserStory userStory = new UserStory();
-				userStory.setId( 22 );
-				this.addUserStory( userStory );
+				userStory.setId(23);
+				this.addUserStory(userStory);
 				this.store();
 			}
+
 		} // Ende der Schleife
 	}
 
@@ -123,8 +124,6 @@ public class Container {
 		// [Sortierung ausgelassen]
 		// Todo: Implementierung Sortierung (F4)
 
-
-
 		// Klassische Ausgabe ueber eine For-Each-Schleife
 		for (UserStory story : liste) {
 			System.out.println(story.toString());
@@ -137,6 +136,7 @@ public class Container {
 
 		String project = "Coll@HBRS";
 		// ToDo: Filterung nach einem Projekt (F5)
+
 
 	}
 
@@ -156,7 +156,7 @@ public class Container {
 			System.out.println( this.size() + " UserStory wurden erfolgreich gespeichert!");
 		}
 		catch (IOException e) {
-			e.printStackTrace();
+			e.printStackTrace(); // sollte man auskommentieren.
 		  //  Delegation in den aufrufendem Context
 		  // (Anwendung Pattern "Chain Of Responsibility)
 		  throw new ContainerException("Fehler beim Abspeichern");
