@@ -119,3 +119,76 @@ Die User Story führt zu einer **fachlichen Verfeinerung des bestehenden Use Cas
 ---
 
 # Aufgabe 2c
+
+## Textueller Use Case: „Auf Projektausschreibung bewerben“
+
+**System:** Coll@HBRS  
+**Use Case Name:** Auf Projektausschreibung bewerben  
+**Akteur:** Student  
+**Ziel:** Der Student möchte sich erfolgreich auf eine ausgewählte Projektausschreibung bewerben.
+
+## Vorbedingungen
+
+1. Der Student ist im System **eingeloggt**.
+2. Der Student hat eine **konkrete Projektausschreibung** geöffnet.
+
+## Ereignisfluss (Normalfall)
+
+1. Das System zeigt die Detailansicht der Projektausschreibung an.
+2. Der Student klickt auf **„Jetzt bewerben“**.
+3. Das System öffnet das Bewerbungsformular.
+4. Der Student gibt alle benötigten Angaben ein (z. B. Motivationsfeld, optionale Kommentare).
+5. Das System prüft automatisch die **Vollständigkeit und Gültigkeit der Stammdaten**.
+6. Das System zeigt dem Studenten eine **Übersicht zur finalen Bestätigung** an.
+7. Der Student klickt auf **„Bewerbung abschicken“**.
+8. Das System speichert die Bewerbung und ordnet sie der entsprechenden Projektausschreibung zu.
+9. Das System bestätigt: *„Ihre Bewerbung wurde erfolgreich versendet.“*
+
+## Alternativer Ereignisfluss (Fehlerfall)
+
+**A1 – Stammdaten ungültig oder unvollständig**
+
+5a. Das System erkennt fehlerhafte oder fehlende Stammdaten (z. B. kein Geburtsdatum).  
+5b. Das System zeigt eine Fehlermeldung:  
+*„Ihre Stammdaten sind unvollständig. Bitte aktualisieren Sie Ihr Profil.“*  
+5c. Das System verweist den Studenten zur Profilaktualisierung.  
+5d. Der Use Case endet ohne Bewerbung.
+
+## Nachbedingungen
+
+1. Die Bewerbung ist dauerhaft im System gespeichert.
+2. Die Bewerbung ist für den Unternehmer im Use Case **„Bewerbungen verwalten“** sichtbar.
+3. Der Student hat eine Bestätigung erhalten.
+
+## Test Case (Positivtest)
+
+**Test Case Name:** TC-01 – Erfolgreiche Bewerbung  
+**Ziel:** Überprüfung, dass die Bewerbung korrekt gespeichert und bestätigt wird.  
+**Voraussetzung:** Student ist eingeloggt und steht auf der Detailansicht einer Projektausschreibung.
+
+## Test Input / Annahmen
+
+- Motivationsfeld: „Ich interessiere mich sehr für das Projekt.“
+- Button: **„Jetzt bewerben“**
+- Button: **„Bewerbung abschicken“**
+- Stammdaten sind vollständig:
+  - Name: „Max Beispiel“
+  - Geburtsdatum: „01.01.2000“
+  - Matrikelnummer: „1234567“
+
+## Testschritte
+
+| Schritt | Aktion | Erwartetes Ergebnis |
+|--------|--------|----------------------|
+| 1 | Klick auf „Jetzt bewerben“ | System öffnet Bewerbungsformular |
+| 2 | Student füllt das Motivationsfeld aus | Text erscheint korrekt im Eingabefeld |
+| 3 | System prüft Stammdaten | System bestätigt: Stammdaten gültig |
+| 4 | Klick auf „Bewerbung abschicken“ | Bewerbung wird gespeichert |
+| 5 | Systemmeldung anzeigen | *„Ihre Bewerbung wurde erfolgreich versendet.“* |
+
+## Überprüfung der Nachbedingung
+
+- Bewerbung erscheint unter **„Meine Bewerbungen“** im Studentenprofil.
+- Unternehmer sieht die Bewerbung in **„Bewerbungen verwalten“**.
+
+**Der Test ist erfolgreich**, wenn beide Nachbedingungen erfüllt sind.
