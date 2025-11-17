@@ -62,7 +62,7 @@ Sie beschreibt zwei unabhängige Use Cases und muss aufgeteilt werden.
 
 ---
 
-# Aufgabe 2b (Siehe auch Diagramm)
+# Aufgabe 2b <u>(Siehe auch Diagramm, <font color="green">GRÜNE</font> Änderungen)</u>
 
 ## 1. Einfluss der Student-User-Stories
 
