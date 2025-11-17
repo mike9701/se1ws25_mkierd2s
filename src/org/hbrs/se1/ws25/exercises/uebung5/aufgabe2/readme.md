@@ -55,3 +55,21 @@ Sie beschreibt zwei unabhängige Use Cases und muss aufgeteilt werden.
 - Die ursprüngliche Story war **nicht ausreichend klein** („S“ aus INVEST nicht erfüllt).
 - Durch die Aufteilung in zwei kleinere Stories wird das Kriterium erfüllt.
 - Die neuen Stories enthalten **klare, testbare Akzeptanzkriterien**, wodurch auch das Kriterium **T – Testable** erfüllt ist.
+
+---
+
+---
+
+---
+
+# Aufgabe 2b
+
+Siehe Diagramm
+
+---
+
+---
+
+---
+
+# Aufgabe 2c
