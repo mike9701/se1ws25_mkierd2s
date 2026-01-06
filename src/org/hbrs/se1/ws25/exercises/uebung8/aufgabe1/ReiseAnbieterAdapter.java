@@ -1,6 +1,6 @@
 package org.hbrs.se1.ws25.exercises.uebung8.aufgabe1;
 
-public class ReiseAnbieterAdapter implements HotelAnbieter {
+/*public class ReiseAnbieterAdapter implements HotelAnbieter {
 
     private ReiseAnbieter system;
 
@@ -24,4 +24,4 @@ public class ReiseAnbieterAdapter implements HotelAnbieter {
         // Transformation andeuten
         throw new UnsupportedOperationException();
     }
-}
+}*/
