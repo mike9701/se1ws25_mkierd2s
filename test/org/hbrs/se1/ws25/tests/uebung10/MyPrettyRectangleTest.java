@@ -1,8 +1,8 @@
 package org.hbrs.se1.ws25.tests.uebung10;
 
-import org.hbrs.se1.ws25.exercises.uebung10.BoundingBoxFactory;
-import org.hbrs.se1.ws25.exercises.uebung10.MyPoint;
-import org.hbrs.se1.ws25.exercises.uebung10.MyPrettyRectangle;
+import org.hbrs.se1.ws25.exercises.uebung10.aufgabe1.BoundingBoxFactory;
+import org.hbrs.se1.ws25.exercises.uebung10.aufgabe1.MyPoint;
+import org.hbrs.se1.ws25.exercises.uebung10.aufgabe1.MyPrettyRectangle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

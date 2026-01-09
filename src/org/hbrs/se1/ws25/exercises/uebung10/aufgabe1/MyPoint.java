@@ -1,4 +1,4 @@
-package org.hbrs.se1.ws25.exercises.uebung10;
+package org.hbrs.se1.ws25.exercises.uebung10.aufgabe1;
 
 import java.util.Objects;
 
